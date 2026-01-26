@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프라임K수학 2026년 1학기 수업 안내</title>
+    
+    <!-- Open Graph 메타 태그 (링크 미리보기용) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="더 깊이, 더 체계적으로 프라임K수학이 달라집니다">
+    <meta property="og:description" content="2월부터 새롭게 개편되는 수업 시스템을 안내드립니다. 중등부·고등부 수업 방식이 변경됩니다.">
+    <meta property="og:image" content="og-image.png">
+    <meta property="og:locale" content="ko_KR">
+    
+    <!-- Twitter Card 메타 태그 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="더 깊이, 더 체계적으로 프라임K수학이 달라집니다">
+    <meta name="twitter:description" content="2월부터 새롭게 개편되는 수업 시스템을 안내드립니다.">
+    <meta name="twitter:image" content="og-image.png">
+    
+    <!-- 기본 메타 태그 -->
+    <meta name="description" content="프라임K수학 2026년 1학기 수업 방식 변경 안내 - 중등부, 고등부 새로운 수업 시스템">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFD43B;
+            --primary-dark: #F5C000;
+            --dark: #1A1A2E;
+            --darker: #0F0F1A;
+            --accent: #FF6B35;
+            --success: #4ECDC4;
+            --text-light: #FFFFFF;
+            --text-muted: #B8B8D0;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --gradient-gold: linear-gradient(135deg, #FFD43B 0%, #FF9F1C 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--darker);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--dark) 0%, var(--darker) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 212, 59, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(255, 107, 53, 0.05) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--gradient-gold);
+            color: var(--dark);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        .scroll-indicator svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--primary);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Philosophy Section */
+        .philosophy {
+            background: linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+        }
+
+        .philosophy-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 212, 59, 0.2);
+            border-radius: 24px;
+            padding: 50px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .philosophy-card .quote {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .philosophy-card .author {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Comparison Section */
+        .comparison {
+            background: var(--dark);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            color: var(--text-light);
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 212, 59, 0.1);
+            border-color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-gold);
+            color: var(--dark);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        @media (max-width: 900px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            .arrow-container { display: none; }
+        }
+
+        .comparison-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .comparison-card.before {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .comparison-card.after {
+            border-color: var(--primary);
+            box-shadow: 0 0 40px rgba(255, 212, 59, 0.15);
+        }
+
+        .card-label {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .before .card-label {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        .after .card-label {
+            background: var(--gradient-gold);
+            color: var(--dark);
+        }
+
+        .comparison-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .time-block {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .time-block .label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .time-block .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .after .time-block .value {
+            color: var(--primary);
+        }
+
+        .time-block .detail {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .arrow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arrow {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: arrowPulse 2s infinite;
+        }
+
+        .arrow svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--dark);
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: linear-gradient(180deg, var(--dark) 0%, var(--darker) 100%);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 212, 59, 0.3);
+        }
+
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-gold);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            background: var(--darker);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        @media (max-width: 600px) {
+            .timeline::before {
+                left: 20px;
+            }
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 30px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        @media (max-width: 600px) {
+            .timeline-item,
+            .timeline-item:nth-child(odd) {
+                flex-direction: row;
+                padding-left: 60px;
+            }
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 600px) {
+            .timeline-content {
+                width: 100%;
+            }
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 4px solid var(--darker);
+            z-index: 1;
+        }
+
+        @media (max-width: 600px) {
+            .timeline-dot {
+                left: 20px;
+            }
+        }
+
+        .timeline-content h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content p {
+            color: var(--text-muted);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--dark) 0%, #2A2A4E 100%);
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--card-bg);
+            padding: 20px 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 212, 59, 0.2);
+        }
+
+        .contact-item .icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-gold);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .contact-item .text {
+            text-align: left;
+        }
+
+        .contact-item .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .contact-item .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--gradient-gold);
+            color: var(--dark);
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 212, 59, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 212, 59, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* Animations on Scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 20px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .comparison-card {
+                padding: 30px;
+            }
+
+            .philosophy-card {
+                padding: 30px;
+            }
+
+            .philosophy-card .quote {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="badge">📢 2026년 1학기 새 학기 안내</div>
+        <h1>더 깊이, 더 체계적으로<br><span class="highlight">프라임K수학</span>이 달라집니다</h1>
+        <p class="subtitle">2월부터 새롭게 개편되는 수업 시스템을 안내드립니다</p>
+    </div>
+    <div class="scroll-indicator" onclick="document.querySelector('.philosophy').scrollIntoView({behavior: 'smooth'})">
+        <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+    </div>
+</section>
+
+<!-- Philosophy Section -->
+<section class="philosophy section">
+    <div class="philosophy-card animate-on-scroll">
+        <div class="quote">"태도가 공부를 완성한다!"</div>
+        <p class="author">프라임K수학은 단순한 수학 수업을 넘어,<br>학생 한 명 한 명의 <strong>최고치를 끌어올리는 맞춤 시스템</strong>을 운영합니다.</p>
+    </div>
+</section>
+
+<!-- Comparison Section -->
+<section class="comparison section">
+    <div class="section-title animate-on-scroll">
+        <h2>🔄 수업 방식 비교</h2>
+        <p>기존 수업과 새로운 수업 시스템을 비교해보세요</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('middle')">중등부</button>
+        <button class="tab-btn" onclick="showTab('high')">고등부</button>
+        <button class="tab-btn" onclick="showTab('high3')">고3 수능대비반</button>
+    </div>
+
+    <!-- 중등부 -->
+    <div id="middle" class="tab-content active">
+        <div class="comparison-grid">
+            <div class="comparison-card before animate-on-scroll">
+                <span class="card-label">기존</span>
+                <h3>📚 중등부</h3>
+                <div class="time-block">
+                    <div class="label">1회 수업시간</div>
+                    <div class="value">90분</div>
+                </div>
+                <div class="time-block">
+                    <div class="label">주간 수업 구성</div>
+                    <div class="value">주 3회</div>
+                    <div class="detail">
+                        • 진도 수업 2회<br>
+                        • 클리닉 수업 1회
+                    </div>
+                </div>
+                <div class="time-block">
+                    <div class="label">총 수업시간</div>
+                    <div class="value">주 270분</div>
+                </div>
+            </div>
+
+            <div class="arrow-container">
+                <div class="arrow">
+                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </div>
+            </div>
+
+            <div class="comparison-card after animate-on-scroll">
+                <span class="card-label">✨ 2월 NEW</span>
+                <h3>📚 중등부</h3>
+                <div class="time-block">
+                    <div class="label">1회 수업시간</div>
+                    <div class="value">100분 (50분+50분)</div>
+                    <div class="detail">진도 50분 + 클리닉 50분 연속 구성</div>
+                </div>
+                <div class="time-block">
+                    <div class="label">주간 수업 구성</div>
+                    <div class="value">주 3회</div>
+                    <div class="detail">
+                        • 진도+클리닉 연속 수업 2회<br>
+                        • 클리닉 전용 수업 1회 (100분)
+                    </div>
+                </div>
+                <div class="time-block">
+                    <div class="label">총 수업시간</div>
+                    <div class="value">주 300분 (+30분↑)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 고등부 -->
+    <div id="high" class="tab-content">
+        <div class="comparison-grid">
+            <div class="comparison-card before animate-on-scroll">
+                <span class="card-label">기존</span>
+                <h3>📖 고등부</h3>
+                <div class="time-block">
+                    <div class="label">1회 수업시간</div>
+                    <div class="value">100분</div>
+                </div>
+                <div class="time-block">
+                    <div class="label">주간 수업 구성</div>
+                    <div class="value">주 2회</div>
+                    <div class="detail">
+                        • 진도 수업만 진행<br>
+                        • 클리닉 수업 없음
+                    </div>
+                </div>
+                <div class="time-block">
+                    <div class="label">총 수업시간</div>
+                    <div class="value">주 200분</div>
+                </div>
+            </div>
+
+            <div class="arrow-container">
+                <div class="arrow">
+                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </div>
+            </div>
+
+            <div class="comparison-card after animate-on-scroll">
+                <span class="card-label">✨ 2월 NEW</span>
+                <h3>📖 고등부</h3>
+                <div class="time-block">
+                    <div class="label">1회 수업시간</div>
+                    <div class="value">150분 (50분×3)</div>
+                    <div class="detail">진도 50분 → 클리닉 50분 → 진도 50분</div>
+                </div>
+                <div class="time-block">
+                    <div class="label">주간 수업 구성</div>
+                    <div class="value">주 2회</div>
+                    <div class="detail">
+                        • 진도+클리닉+진도 연속 수업<br>
+                        • 클리닉 수업 신규 도입! 🆕
+                    </div>
+                </div>
+                <div class="time-block">
+                    <div class="label">총 수업시간</div>
+                    <div class="value">주 300분 (+100분↑)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 고3 수능대비반 -->
+    <div id="high3" class="tab-content">
+        <div class="comparison-grid">
+            <div class="comparison-card after animate-on-scroll" style="grid-column: 1 / -1; max-width: 600px; margin: 0 auto;">
+                <span class="card-label">🎯 수능 집중반</span>
+                <h3>🏆 고3 수능대비반</h3>
+                <div class="time-block">
+                    <div class="label">평일 수업</div>
+                    <div class="value">100분 수업</div>
+                    <div class="detail">수능 실전 대비 집중 진도 수업</div>
+                </div>
+                <div class="time-block">
+                    <div class="label">주말 특별 프로그램</div>
+                    <div class="value">실전 모의고사 (전과목)</div>
+                    <div class="detail">실제 수능과 동일한 환경에서<br>전과목 모의고사 진행 + 1:1 컨설팅</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="benefits section">
+    <div class="section-title animate-on-scroll">
+        <h2>💎 새로운 수업의 장점</h2>
+        <p>왜 이렇게 바꾸었을까요?</p>
+    </div>
+
+    <div class="benefits-grid">
+        <div class="benefit-card animate-on-scroll">
+            <div class="benefit-icon">🔗</div>
+            <h3>진도-클리닉 연속 수업</h3>
+            <p>배운 내용을 바로 이어서 문제로 풀어보며 <strong>학습 효과를 극대화</strong>합니다. 수업 내용이 머릿속에 생생할 때 바로 적용해봅니다.</p>
+        </div>
+
+        <div class="benefit-card animate-on-scroll">
+            <div class="benefit-icon">👨‍🏫</div>
+            <h3>학생 주도 클리닉</h3>
+            <p>클리닉 시간은 <strong>학생이 스스로 문제를 풀며</strong> 모르는 부분만 선생님께 질문하는 방식입니다. 자기주도 학습 습관을 길러줍니다.</p>
+        </div>
+
+        <div class="benefit-card animate-on-scroll">
+            <div class="benefit-icon">⏰</div>
+            <h3>늘어난 수업 시간</h3>
+            <p>중등부는 주 30분, 고등부는 <strong>주 100분</strong>이 늘어납니다. 더 깊이 있는 학습이 가능해집니다.</p>
+        </div>
+
+        <div class="benefit-card animate-on-scroll">
+            <div class="benefit-icon">🎯</div>
+            <h3>고등부 클리닉 신설</h3>
+            <p>기존 진도 수업만 진행하던 고등부에도 <strong>클리닉 수업이 신설</strong>됩니다. 문제 풀이 능력을 체계적으로 키웁니다.</p>
+        </div>
+
+        <div class="benefit-card animate-on-scroll">
+            <div class="benefit-icon">📊</div>
+            <h3>맞춤형 학습 관리</h3>
+            <p>진도 수업은 K선생이, 클리닉은 담당 선생님이 서포트하여 <strong>더 촘촘한 관리</strong>가 가능합니다.</p>
+        </div>
+
+        <div class="benefit-card animate-on-scroll">
+            <div class="benefit-icon">🚀</div>
+            <h3>입시 경쟁력 강화</h3>
+            <p>맥시멈K컨설팅과 연계하여 <strong>수학 실력 + 입시 전략</strong>을 동시에 완성합니다. 학생의 최고치를 찾아드립니다.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="timeline-section section">
+    <div class="section-title animate-on-scroll">
+        <h2>📅 시행 일정</h2>
+        <p>새로운 수업은 이렇게 진행됩니다</p>
+    </div>
+
+    <div class="timeline">
+        <div class="timeline-item animate-on-scroll">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <h4>2026년 1월</h4>
+                <p>새 학기 시간표 확정 및 안내</p>
+            </div>
+        </div>
+        <div class="timeline-item animate-on-scroll">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <h4>2026년 2월</h4>
+                <p>새로운 수업 시스템 본격 시행</p>
+            </div>
+        </div>
+        <div class="timeline-item animate-on-scroll">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <h4>상시 운영</h4>
+                <p>개별 상담 및 수업 시간 조율 가능</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta">
+    <h2>궁금하신 점이 있으신가요?</h2>
+    <p>언제든 편하게 연락주세요!</p>
+    
+    <div class="contact-info">
+        <div class="contact-item">
+            <div class="icon">📞</div>
+            <div class="text">
+                <div class="label">상담 문의</div>
+                <div class="value">010-6408-7421</div>
+            </div>
+        </div>
+        <div class="contact-item">
+            <div class="icon">📍</div>
+            <div class="text">
+                <div class="label">위치</div>
+                <div class="value">목동 한사랑 아파트 106동</div>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://blog.naver.com/maximumk1010" target="_blank" class="cta-btn">블로그 방문하기 →</a>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="logo">프라임K수학</div>
+    <p>© 2026 프라임K수학 & 맥시멈K컨설팅. All rights reserved.</p>
+</footer>
+
+<script>
+    // Tab functionality
+    function showTab(tabId) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Remove active class from all buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Show selected tab content
+        document.getElementById(tabId).classList.add('active');
+        
+        // Add active class to clicked button
+        event.target.classList.add('active');
+    }
+
+    // Scroll animation
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        observer.observe(el);
+    });
+</script>
+
+</body>
+</html>
