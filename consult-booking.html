@@ -340,6 +340,21 @@
   .notice li { margin-bottom: 3px; word-break: keep-all; }
   .notice strong { color: var(--navy); font-weight: 700; }
 
+  .alert-card {
+    background: var(--gold-bg);
+    border: 2px solid var(--gold);
+    border-left-width: 6px;
+  }
+  .alert-card .card-header { color: #8a6815; }
+  .alert-desc {
+    color: #5c4810 !important;
+    font-weight: 500;
+  }
+  .alert-desc strong {
+    color: var(--peach-accent) !important;
+    font-weight: 800;
+  }
+
   .banner {
     border-radius: 14px;
     padding: 16px;
@@ -525,6 +540,17 @@
       </div>
     </div>
 
+    <div class="card alert-card">
+      <div class="card-header"><span class="emoji">📚</span> 상담 시 꼭 챙겨오세요</div>
+      <div class="card-body">
+        <p class="desc alert-desc">
+          <strong>채점된 전과목 시험지</strong>를 모두 가져와주세요.<br>
+          수학뿐만 아니라 <strong>전과목 학습 상황</strong>을 종합적으로 점검하고,
+          앞으로의 <strong>학습 우선순위</strong>를 함께 정리할 거예요.
+        </p>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-header"><span class="emoji">📝</span> 학생 정보</div>
       <div class="card-body">
@@ -554,6 +580,7 @@
     <div class="notice">
       <div class="notice-title">📌 안내사항</div>
       <ul>
+        <li><strong>채점된 전과목 시험지를 모두 지참</strong>해주세요. (필수)</li>
         <li>예약은 <strong>실시간 반영</strong>됩니다. 먼저 신청한 학생이 우선이에요.</li>
         <li>변경/취소는 <strong>010-6408-7421</strong>로 연락주세요.</li>
         <li>상담은 <strong>학원 상담실</strong>에서 진행됩니다.</li>
