@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1a2744">
 <meta property="og:type" content="website">
 <meta property="og:title" content="프라임K수학 · 1:1 성적 상담 예약">
-<meta property="og:description" content="5월 4일(월) ~ 6일(수) 저녁 · 12타임 운영 · 시험 수고했어요!">
+<meta property="og:description" content="7월 7일(화) ~ 9일(목) 저녁 · 10타임 운영 · 시험 수고했어요!">
 <meta property="og:image" content="https://trmaximumk-afk.github.io/prime-k-notice/og-consult.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -15,7 +15,7 @@
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="프라임K수학 · 1:1 성적 상담 예약">
-<meta name="twitter:description" content="5월 4일(월) ~ 6일(수) 저녁 · 12타임 운영">
+<meta name="twitter:description" content="7월 7일(화) ~ 9일(목) 저녁 · 10타임 운영">
 <meta name="twitter:image" content="https://trmaximumk-afk.github.io/prime-k-notice/og-consult.png">
 <title>프라임K수학 · 1:1 성적 상담 예약</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -509,7 +509,7 @@
       <span class="conn-dot connecting" id="connDot"></span>
       <span id="connText">연결중</span>
     </div>
-    <div class="badge">2026 · 1학기 중간고사</div>
+    <div class="badge">2026 · 1학기 기말고사</div>
     <p class="hero-brand">프라임K수학</p>
     <h1>시험 <em>수고했어요</em>!<br>1:1 성적 상담 예약</h1>
     <p class="sub">고1 · 고2 · 고3 대상</p>
@@ -533,8 +533,8 @@
       <div class="card-header"><span class="emoji">📅</span> 상담 일정</div>
       <div class="card-body">
         <p class="desc">
-          <strong>5월 4일(월) ~ 6일(수)</strong> 저녁<br>
-          하루 4타임 · 1회 <strong>50분</strong> · 총 <strong>12타임</strong> 운영<br>
+          <strong>7월 7일(화) ~ 9일(목)</strong> 저녁<br>
+          1회 <strong>50분</strong> · 총 <strong>10타임</strong> 운영<br>
           원하는 요일과 시간을 <strong>1개</strong> 선택해주세요.
         </p>
       </div>
@@ -641,17 +641,19 @@ const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 // slot_id 형식: YYYYMMDD-HHMM
 // 다음 시험기간 재사용 시 SLOT_DATES만 변경
 const SLOT_DATES = {
-  mon: '20260504',
-  tue: '20260505',
-  wed: '20260506'
+  tue: '20260707',
+  wed: '20260708',
+  thu: '20260709'
 };
 
+// 요일마다 열리는 타임이 다름 → 각 날짜에 timeIds 지정
 const DAYS = [
-  { id: 'mon', name: '월요일', short: '월', date: '5월 4일' },
-  { id: 'tue', name: '화요일', short: '화', date: '5월 5일' },
-  { id: 'wed', name: '수요일', short: '수', date: '5월 6일' }
+  { id: 'tue', name: '화요일', short: '화', date: '7월 7일', timeIds: ['1900', '1950', '2040', '2130'] },
+  { id: 'wed', name: '수요일', short: '수', date: '7월 8일', timeIds: ['1900', '1950', '2040', '2130'] },
+  { id: 'thu', name: '목요일', short: '목', date: '7월 9일', timeIds: ['1900', '2040'] }
 ];
 
+// 전체 타임 정의 (마스터). label은 시작시각 기준으로 표기
 const TIMES = [
   { id: '1900', start: '19:00', end: '19:50', label: '1타임' },
   { id: '1950', start: '19:50', end: '20:40', label: '2타임' },
@@ -659,8 +661,12 @@ const TIMES = [
   { id: '2130', start: '21:30', end: '22:20', label: '4타임' }
 ];
 
+// 총 슬롯 수 (요일별 timeIds 합산)
+const TOTAL_SLOTS = DAYS.reduce((sum, d) => sum + d.timeIds.length, 0);
+
 const STORAGE_KEY = 'consult_student_name';
 const buildSlotId = (dayId, timeId) => `${SLOT_DATES[dayId]}-${timeId}`;
+const getTime = (timeId) => TIMES.find(t => t.id === timeId);
 const parseSlotId = (slotId) => {
   const [date, time] = slotId.split('-');
   const dayEntry = Object.entries(SLOT_DATES).find(([_, d]) => d === date);
@@ -690,7 +696,7 @@ function render() {
   const container = document.getElementById('daysContainer');
   container.innerHTML = '';
 
-  const totalSlots = DAYS.length * TIMES.length;
+  const totalSlots = TOTAL_SLOTS;
   const banner = document.getElementById('allBookedBanner');
   banner.classList.toggle('show', !isLoading && bookedSlotIds.size >= totalSlots);
 
@@ -698,7 +704,8 @@ function render() {
     const card = document.createElement('div');
     card.className = 'card day-card';
 
-    const slotsHtml = TIMES.map(time => {
+    const slotsHtml = day.timeIds.map(timeId => {
+      const time = getTime(timeId);
       const slotId = buildSlotId(day.id, time.id);
       const isBooked = bookedSlotIds.has(slotId);
       const isSelected = selectedSlot === slotId;

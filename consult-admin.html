@@ -629,7 +629,7 @@
         </div>
       </div>
       <h1>1:1 상담 예약 현황</h1>
-      <p class="sub">5월 4일(월) ~ 6일(수) · 12타임</p>
+      <p class="sub">7월 7일(화) ~ 9일(목) · 10타임</p>
     </header>
 
     <main class="content">
@@ -640,7 +640,7 @@
           <div class="stat-label">예약</div>
         </div>
         <div class="stat-card remaining">
-          <div class="stat-num" id="statRemaining">12</div>
+          <div class="stat-num" id="statRemaining">10</div>
           <div class="stat-label">남은자리</div>
         </div>
         <div class="stat-card completed">
@@ -727,14 +727,15 @@ const SESSION_KEY = 'consult_admin_unlocked';
 // 슬롯 설정 (booking 페이지와 동일해야 함)
 // ==============================================================
 const SLOT_DATES = {
-  mon: '20260504',
-  tue: '20260505',
-  wed: '20260506'
+  tue: '20260707',
+  wed: '20260708',
+  thu: '20260709'
 };
+// 요일마다 열리는 타임이 다름 → 각 날짜에 timeIds 지정
 const DAYS = [
-  { id: 'mon', name: '월요일', short: '월', date: '5월 4일' },
-  { id: 'tue', name: '화요일', short: '화', date: '5월 5일' },
-  { id: 'wed', name: '수요일', short: '수', date: '5월 6일' }
+  { id: 'tue', name: '화요일', short: '화', date: '7월 7일', timeIds: ['1900', '1950', '2040', '2130'] },
+  { id: 'wed', name: '수요일', short: '수', date: '7월 8일', timeIds: ['1900', '1950', '2040', '2130'] },
+  { id: 'thu', name: '목요일', short: '목', date: '7월 9일', timeIds: ['1900', '2040'] }
 ];
 const TIMES = [
   { id: '1900', start: '19:00', end: '19:50', label: '1타임' },
@@ -742,7 +743,9 @@ const TIMES = [
   { id: '2040', start: '20:40', end: '21:30', label: '3타임' },
   { id: '2130', start: '21:30', end: '22:20', label: '4타임' }
 ];
+const TOTAL_SLOTS = DAYS.reduce((sum, d) => sum + d.timeIds.length, 0);
 const buildSlotId = (dayId, timeId) => `${SLOT_DATES[dayId]}-${timeId}`;
+const getTime = (timeId) => TIMES.find(t => t.id === timeId);
 const parseSlotId = (slotId) => {
   const [date, time] = slotId.split('-');
   const dayEntry = Object.entries(SLOT_DATES).find(([_, d]) => d === date);
@@ -868,7 +871,7 @@ function subscribeToChanges() {
 // 통계
 // ==============================================================
 function renderStats() {
-  const totalSlots = DAYS.length * TIMES.length;
+  const totalSlots = TOTAL_SLOTS;
   const active = bookings.filter(b => b.status === 'active').length;
   const completed = bookings.filter(b => b.status === 'completed').length;
   const cancelled = bookings.filter(b => b.status === 'cancelled').length;
@@ -905,15 +908,16 @@ function renderSchedule() {
     const group = document.createElement('div');
     group.className = 'day-group';
 
-    const dayBookings = TIMES.map(t => slotMap.get(buildSlotId(day.id, t.id))).filter(b => b && b.status === 'active');
+    const dayBookings = day.timeIds.map(tid => slotMap.get(buildSlotId(day.id, tid))).filter(b => b && b.status === 'active');
     const groupHeader = `
       <div class="day-group-header">
         <span class="day-group-title">${day.name} · ${day.date}</span>
-        <span class="day-group-count">${dayBookings.length} / 4</span>
+        <span class="day-group-count">${dayBookings.length} / ${day.timeIds.length}</span>
       </div>
     `;
 
-    const cardsHtml = TIMES.map(time => {
+    const cardsHtml = day.timeIds.map(timeId => {
+      const time = getTime(timeId);
       const slotId = buildSlotId(day.id, time.id);
       const booking = slotMap.get(slotId);
       const activeBooking = (booking && booking.status === 'active') ? booking : null;
