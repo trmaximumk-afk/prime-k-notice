@@ -330,10 +330,10 @@
 <div class="page">
 
   <header class="hero">
-    <div class="badge">2026 · 2학기 중간고사</div>
+    <div class="badge" id="seasonBadge">2026 · 2학기 중간고사</div>
     <p class="hero-brand">프라임K수학</p>
     <h1>시험기간 <em>토요일</em><br>시간표 안내</h1>
-    <p class="sub">고1 · 고2 대상 · 9월 5일(토)부터</p>
+    <p class="sub" id="startSub">고1 · 고2 대상 · 9월 5일(토)부터</p>
   </header>
 
   <main class="content">
@@ -446,6 +446,28 @@
   </footer>
 
 </div>
+
+<script>
+// 시즌 설정: 교적 대시보드(subnap-check)의 notice.json에서 배지·시작일을 읽어온다.
+// 실패하면 위 HTML의 하드코딩 값을 그대로 보여준다(폴백).
+(async function(){
+  try{
+    var r = await fetch('https://trmaximumk-afk.github.io/subnap-check/notice.json?t=' + Date.now());
+    if(!r.ok) return;
+    var cfg = await r.json();
+    if(cfg && cfg.season) document.getElementById('seasonBadge').textContent = cfg.season;
+    var st = cfg && cfg.timetable && cfg.timetable.start;
+    if(st){
+      var p = ('' + st).split('-').map(Number);
+      if(p.length === 3 && !p.some(isNaN)){
+        var WD = ['일','월','화','수','목','금','토'];
+        var lb = p[1] + '월 ' + p[2] + '일(' + WD[new Date(p[0], p[1]-1, p[2]).getDay()] + ')';
+        document.getElementById('startSub').textContent = '고1 · 고2 대상 · ' + lb + '부터';
+      }
+    }
+  }catch(e){ /* 폴백 */ }
+})();
+</script>
 
 </body>
 </html>

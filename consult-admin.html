@@ -629,7 +629,7 @@
         </div>
       </div>
       <h1>1:1 상담 예약 현황</h1>
-      <p class="sub">7월 7일(화) ~ 9일(목) · 10타임</p>
+      <p class="sub" id="periodSub">7월 7일(화) ~ 9일(목) · 10타임</p>
     </header>
 
     <main class="content">
@@ -724,15 +724,15 @@ const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 const SESSION_KEY = 'consult_admin_unlocked';
 
 // ==============================================================
-// 슬롯 설정 (booking 페이지와 동일해야 함)
+// 슬롯 설정 (booking 페이지와 동일 — 시즌 날짜는 notice.json이 주입, 아래는 폴백)
 // ==============================================================
-const SLOT_DATES = {
+let SLOT_DATES = {
   tue: '20260707',
   wed: '20260708',
   thu: '20260709'
 };
 // 요일마다 열리는 타임이 다름 → 각 날짜에 timeIds 지정
-const DAYS = [
+let DAYS = [
   { id: 'tue', name: '화요일', short: '화', date: '7월 7일', timeIds: ['1900', '1950', '2040', '2130'] },
   { id: 'wed', name: '수요일', short: '수', date: '7월 8일', timeIds: ['1900', '1950', '2040', '2130'] },
   { id: 'thu', name: '목요일', short: '목', date: '7월 9일', timeIds: ['1900', '2040'] }
@@ -743,7 +743,41 @@ const TIMES = [
   { id: '2040', start: '20:40', end: '21:30', label: '3타임' },
   { id: '2130', start: '21:30', end: '22:20', label: '4타임' }
 ];
-const TOTAL_SLOTS = DAYS.reduce((sum, d) => sum + d.timeIds.length, 0);
+let TOTAL_SLOTS = DAYS.reduce((sum, d) => sum + d.timeIds.length, 0);
+
+// ==============================================================
+// 시즌 설정 주입 (교적 대시보드 notice.json) — 실패 시 위 폴백 유지
+// ==============================================================
+const WD_KO = ['일', '월', '화', '수', '목', '금', '토'];
+const ymdParts = (s) => {
+  const p = ('' + (s || '')).split('-').map(Number);
+  return (p.length === 3 && !p.some(isNaN)) ? p : null;
+};
+try {
+  const opt = {};
+  if (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) opt.signal = AbortSignal.timeout(4000);
+  const res = await fetch('https://trmaximumk-afk.github.io/subnap-check/notice.json?t=' + Date.now(), opt);
+  if (res.ok) {
+    const cfg = await res.json();
+    const cfgDays = (((cfg || {}).consult || {}).days || [])
+      .filter(d => ymdParts(d.date) && Array.isArray(d.times) && d.times.some(t => TIMES.some(x => x.id === t)));
+    if (cfgDays.length) {
+      SLOT_DATES = {}; DAYS = [];
+      cfgDays.forEach((d, i) => {
+        const p = ymdParts(d.date);
+        const dow = WD_KO[new Date(p[0], p[1] - 1, p[2]).getDay()];
+        const id = 'd' + i;
+        SLOT_DATES[id] = `${p[0]}${String(p[1]).padStart(2, '0')}${String(p[2]).padStart(2, '0')}`;
+        DAYS.push({ id, name: dow + '요일', short: dow, date: `${p[1]}월 ${p[2]}일`,
+                    timeIds: d.times.filter(t => TIMES.some(x => x.id === t)) });
+      });
+      TOTAL_SLOTS = DAYS.reduce((sum, d) => sum + d.timeIds.length, 0);
+      const f = DAYS[0], l = DAYS[DAYS.length - 1];
+      const period = DAYS.length > 1 ? `${f.date}(${f.short}) ~ ${l.date}(${l.short})` : `${f.date}(${f.short})`;
+      document.getElementById('periodSub').textContent = `${period} · ${TOTAL_SLOTS}타임`;
+    }
+  }
+} catch (e) { /* 폴백 */ }
 const buildSlotId = (dayId, timeId) => `${SLOT_DATES[dayId]}-${timeId}`;
 const getTime = (timeId) => TIMES.find(t => t.id === timeId);
 const parseSlotId = (slotId) => {

@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#1a2744">
 <meta property="og:type" content="website">
 <meta property="og:title" content="프라임K수학 · 1:1 성적 상담 예약">
-<meta property="og:description" content="7월 7일(화) ~ 9일(목) 저녁 · 10타임 운영 · 시험 수고했어요!">
+<meta property="og:description" content="시험 후 1:1 성적 상담 · 저녁 타임 선착순 예약 · 시험 수고했어요!">
 <meta property="og:image" content="https://trmaximumk-afk.github.io/prime-k-notice/og-consult.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -15,7 +15,7 @@
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="프라임K수학 · 1:1 성적 상담 예약">
-<meta name="twitter:description" content="7월 7일(화) ~ 9일(목) 저녁 · 10타임 운영">
+<meta name="twitter:description" content="시험 후 1:1 성적 상담 · 저녁 타임 선착순 예약">
 <meta name="twitter:image" content="https://trmaximumk-afk.github.io/prime-k-notice/og-consult.png">
 <title>프라임K수학 · 1:1 성적 상담 예약</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -509,7 +509,7 @@
       <span class="conn-dot connecting" id="connDot"></span>
       <span id="connText">연결중</span>
     </div>
-    <div class="badge">2026 · 1학기 기말고사</div>
+    <div class="badge" id="seasonBadge">2026 · 1학기 기말고사</div>
     <p class="hero-brand">프라임K수학</p>
     <h1>시험 <em>수고했어요</em>!<br>1:1 성적 상담 예약</h1>
     <p class="sub">고1 · 고2 · 고3 대상</p>
@@ -533,7 +533,7 @@
       <div class="card-header"><span class="emoji">📅</span> 상담 일정</div>
       <div class="card-body">
         <p class="desc">
-          <strong>7월 7일(화) ~ 9일(목)</strong> 저녁<br>
+          <strong id="consultPeriod">7월 7일(화) ~ 9일(목)</strong> 저녁<br>
           1회 <strong>50분</strong> · 총 <strong>10타임</strong> 운영<br>
           원하는 요일과 시간을 <strong>1개</strong> 선택해주세요.
         </p>
@@ -639,15 +639,16 @@ const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ========== 슬롯 설정 ==========
 // slot_id 형식: YYYYMMDD-HHMM
-// 다음 시험기간 재사용 시 SLOT_DATES만 변경
-const SLOT_DATES = {
+// 시즌 날짜는 교적 대시보드 notice.json(시험 탭 → 페이지 반영)이 주입한다.
+// 아래 하드코딩 값은 notice.json이 없거나 불러오기 실패 시의 폴백.
+let SLOT_DATES = {
   tue: '20260707',
   wed: '20260708',
   thu: '20260709'
 };
 
 // 요일마다 열리는 타임이 다름 → 각 날짜에 timeIds 지정
-const DAYS = [
+let DAYS = [
   { id: 'tue', name: '화요일', short: '화', date: '7월 7일', timeIds: ['1900', '1950', '2040', '2130'] },
   { id: 'wed', name: '수요일', short: '수', date: '7월 8일', timeIds: ['1900', '1950', '2040', '2130'] },
   { id: 'thu', name: '목요일', short: '목', date: '7월 9일', timeIds: ['1900', '2040'] }
@@ -662,7 +663,41 @@ const TIMES = [
 ];
 
 // 총 슬롯 수 (요일별 timeIds 합산)
-const TOTAL_SLOTS = DAYS.reduce((sum, d) => sum + d.timeIds.length, 0);
+let TOTAL_SLOTS = DAYS.reduce((sum, d) => sum + d.timeIds.length, 0);
+
+// ========== 시즌 설정 주입 (교적 대시보드 notice.json) ==========
+// 모듈 최상위 await — 이후 코드(초기 render 포함)는 설정 반영 뒤에 실행된다.
+const WD_KO = ['일', '월', '화', '수', '목', '금', '토'];
+const ymdParts = (s) => {
+  const p = ('' + (s || '')).split('-').map(Number);
+  return (p.length === 3 && !p.some(isNaN)) ? p : null;
+};
+try {
+  const opt = {};
+  if (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) opt.signal = AbortSignal.timeout(4000);
+  const res = await fetch('https://trmaximumk-afk.github.io/subnap-check/notice.json?t=' + Date.now(), opt);
+  if (res.ok) {
+    const cfg = await res.json();
+    if (cfg && cfg.season) document.getElementById('seasonBadge').textContent = cfg.season;
+    const cfgDays = (((cfg || {}).consult || {}).days || [])
+      .filter(d => ymdParts(d.date) && Array.isArray(d.times) && d.times.some(t => TIMES.some(x => x.id === t)));
+    if (cfgDays.length) {
+      SLOT_DATES = {}; DAYS = [];
+      cfgDays.forEach((d, i) => {
+        const p = ymdParts(d.date);
+        const dow = WD_KO[new Date(p[0], p[1] - 1, p[2]).getDay()];
+        const id = 'd' + i;
+        SLOT_DATES[id] = `${p[0]}${String(p[1]).padStart(2, '0')}${String(p[2]).padStart(2, '0')}`;
+        DAYS.push({ id, name: dow + '요일', short: dow, date: `${p[1]}월 ${p[2]}일`,
+                    timeIds: d.times.filter(t => TIMES.some(x => x.id === t)) });
+      });
+      TOTAL_SLOTS = DAYS.reduce((sum, d) => sum + d.timeIds.length, 0);
+      const f = DAYS[0], l = DAYS[DAYS.length - 1];
+      const period = DAYS.length > 1 ? `${f.date}(${f.short}) ~ ${l.date}(${l.short})` : `${f.date}(${f.short})`;
+      document.getElementById('consultPeriod').textContent = period;
+    }
+  }
+} catch (e) { /* 폴백: 하드코딩 시즌 유지 */ }
 
 const STORAGE_KEY = 'consult_student_name';
 const buildSlotId = (dayId, timeId) => `${SLOT_DATES[dayId]}-${timeId}`;
