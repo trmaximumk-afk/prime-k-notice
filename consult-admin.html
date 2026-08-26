@@ -906,9 +906,12 @@ function subscribeToChanges() {
 // ==============================================================
 function renderStats() {
   const totalSlots = TOTAL_SLOTS;
-  const active = bookings.filter(b => b.status === 'active').length;
-  const completed = bookings.filter(b => b.status === 'completed').length;
-  const cancelled = bookings.filter(b => b.status === 'cancelled').length;
+  // 이번 시즌 슬롯에 속한 예약만 집계 — 지난 시즌 기록이 남아 있어도 남은자리가 음수가 되지 않게
+  const seasonIds = new Set(DAYS.flatMap(d => d.timeIds.map(t => buildSlotId(d.id, t))));
+  const cur = bookings.filter(b => seasonIds.has(b.slot_id));
+  const active = cur.filter(b => b.status === 'active').length;
+  const completed = cur.filter(b => b.status === 'completed').length;
+  const cancelled = cur.filter(b => b.status === 'cancelled').length;
   const remaining = totalSlots - active - completed;
   document.getElementById('statActive').textContent = active;
   document.getElementById('statRemaining').textContent = remaining;
